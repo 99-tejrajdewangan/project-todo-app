@@ -15,6 +15,7 @@ export const authService = {
     if (response.data.success) {
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.data));
+      api.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
     }
     return response.data;
   },

@@ -10,12 +10,14 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-    setLoading(false);
-  }, []);
+  const token = localStorage.getItem('token');
+  const user = localStorage.getItem('user');
+  if (token && user) {
+    setUser(JSON.parse(user));
+    api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  }
+  setLoading(false);
+}, []);
 
   const login = async (email, password) => {
     const response = await authService.login({ email, password });
